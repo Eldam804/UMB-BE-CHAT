@@ -37,6 +37,6 @@ public class AuthenticationService {
     }
 
     public void logout(String token) {
-
+        //TODO dorobit logout
     }
 }
