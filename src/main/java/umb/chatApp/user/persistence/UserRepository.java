@@ -18,4 +18,6 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
     @Query("MATCH(u:User) WHERE id(u) = $id")
     UserEntity getUserById(Long id);
 
+    @Query("MATCH (u:User) WHERE u.username = $username RETURN u")
+    UserEntity getUserByUsername(String username);
 }

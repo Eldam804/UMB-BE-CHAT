@@ -9,6 +9,7 @@ import umb.chatApp.user.persistence.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -43,4 +44,7 @@ public class UserService {
         return userDtoResponse;
     }
 
+    public UserDtoResponse getUserByUsername(String username) {
+        return mapToDto(this.userRepository.getUserByUsername(username));
+    }
 }
