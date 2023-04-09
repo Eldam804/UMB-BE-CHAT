@@ -1,13 +1,14 @@
-package umb.chatApp.user;
+package umb.chatApp.user.persistence.entity;
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
-import java.time.LocalDateTime;
 
-
-public class UserDtoResponse {
+@Node("User")
+public class UserEntity {
+    @Id
+    @GeneratedValue
     private Long id;
     private String username;
     private String password;
