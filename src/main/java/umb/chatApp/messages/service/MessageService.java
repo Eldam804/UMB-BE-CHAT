@@ -1,6 +1,8 @@
 package umb.chatApp.messages.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import umb.chatApp.messages.MessageDto;
 import umb.chatApp.messages.MessageDtoResponse;
@@ -15,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@PreAuthorize("hasROLE('User')")
 public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
@@ -36,6 +39,7 @@ public class MessageService {
         return messageDtoResponse;
 
     }
+
 
     public List<MessageDtoResponse> getPrivateMessagesById(MessageRequestDto messageRequestDto) {
         return messageRepository.getPrivateMessage(messageRequestDto.getUserId(), messageRequestDto.getOtherUserId());
