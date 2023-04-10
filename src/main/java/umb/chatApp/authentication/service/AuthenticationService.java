@@ -2,7 +2,9 @@ package umb.chatApp.authentication.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Service;
+import umb.chatApp.authentication.UserRole;
 import umb.chatApp.authentication.persistence.AuthenticationRepository;
 import umb.chatApp.authentication.persistence.entity.TokenEntity;
 import umb.chatApp.user.UserDtoResponse;
@@ -20,7 +22,7 @@ public class AuthenticationService {
     @Autowired
     private UserService userService;
 
-    public String login(String username, String password) {
+    public String authenticate(String username, String password) {
         Optional<UserDtoResponse> userDtoResponse = Optional.ofNullable(userService.getUserByUsername(username));
         if(userDtoResponse.isEmpty()){
             //throw new AuthenticationCredentialsNotFoundException("USERNAME PASSWORD do not match!");
@@ -36,7 +38,17 @@ public class AuthenticationService {
         return token.getToken();
     }
 
+    public UserRole authenticate(String token){
+        String token1 = token.substring("Bearer".length()).trim();
+        TokenEntity optionalTokenEntity = authenticationRepository.getByToken(token1);
+        if(optionalTokenEntity.getToken().isEmpty()){
+            throw new AuthenticationCredentialsNotFoundException("Authentication failed");
+        }
+        //System.out.println(authenticationRepository.getUserRoleByToken(token).getName());
+        return authenticationRepository.getUserRoleByToken(token);
+    }
+
     public void logout(String token) {
-        //TODO dorobit logout
+        authenticationRepository.destroyToken(token);
     }
 }

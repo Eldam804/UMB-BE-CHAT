@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@PreAuthorize("hasROLE('User')")
 public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
@@ -31,6 +30,7 @@ public class MessageService {
         }
         return messageDtoResponses;
     }
+
 
     private MessageDtoResponse entityToDto(UserMessageDto userMessageDto) {
         MessageDtoResponse messageDtoResponse = new MessageDtoResponse(userMessageDto.getMessage().getId(), userMessageDto.getMessage().getTimestamp(),

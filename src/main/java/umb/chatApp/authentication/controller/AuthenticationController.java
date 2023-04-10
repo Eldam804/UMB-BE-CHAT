@@ -23,7 +23,7 @@ public class AuthenticationController {
         }
 
         String[] credentials = decodeBasicAuthHeader(authentication.get());
-        String token = authenticationService.login(credentials[0], credentials[1]);
+        String token = authenticationService.authenticate(credentials[0], credentials[1]);
 
         response.setStatus(HttpStatus.OK.value());
         response.addHeader("Authorization", "Bearer " + token);
