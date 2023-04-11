@@ -16,7 +16,7 @@ public interface MessageRepository extends Neo4jRepository<MessageEntity, Long> 
             " MATCH (u)-[:SENT]->(g)" +
             " RETURN u as user, g as message")
     */
-    @Query("MATCH (u:User)-[:SENT]->(g:GlobalMessage) return {id: id(u), username: u.username, password: u.password, joinDate: toString(u.joinDate), description: u.description} as user, {id: id(g), timestamp: toString(datetime({epochMillis: g.timestamp})), content: g.content} as message")
+    @Query("MATCH (u:User)-[:SENT]->(g:GlobalMessage) return {id: id(u), username: u.username, password: u.password, joinDate: toString(u.joinDate), description: u.description} as user, {id: id(g), timestamp: toString(datetime({epochMillis: g.timestamp})), content: g.content} as message ORDER BY g.timestamp")
     List<UserMessageDto> getAllMessages();
 
     @Query("MATCH (u1:User)-[:SENT]->(m:PrivateMessage)-[:TO]->(u2:User)" +

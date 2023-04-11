@@ -24,11 +24,13 @@ public class AuthenticationService {
 
     public String authenticate(String username, String password) {
         Optional<UserDtoResponse> userDtoResponse = Optional.ofNullable(userService.getUserByUsername(username));
+        //System.out.println("USERNAME:" + username + "\nPASSWORD:" + password);
+        //System.out.println("UsernameDTO" + userDtoResponse.get().getUsername() + "\n PasswordDto:" + userDtoResponse.get().getPassword());
         if(userDtoResponse.isEmpty()){
-            //throw new AuthenticationCredentialsNotFoundException("USERNAME PASSWORD do not match!");
+            throw new AuthenticationCredentialsNotFoundException("Incorrect username");
         }
-        if(Objects.equals(userDtoResponse.get().getPassword(), password)){
-            //throw new AuthenticationCredentialsNotFoundException("USERNAME PASSWORD do not match!");
+        if(!Objects.equals(userDtoResponse.get().getPassword(), password)){
+            throw new AuthenticationCredentialsNotFoundException("Incorrect password");
         }
         String randomString = UUID.randomUUID().toString();
         TokenEntity token = new TokenEntity();
@@ -50,5 +52,11 @@ public class AuthenticationService {
 
     public void logout(String token) {
         authenticationRepository.destroyToken(token);
+    }
+
+    public Boolean findToken(String token)
+    {
+        Optional<TokenEntity> tokenDto = Optional.ofNullable(authenticationRepository.getByToken(token));
+        return tokenDto.isPresent();
     }
 }

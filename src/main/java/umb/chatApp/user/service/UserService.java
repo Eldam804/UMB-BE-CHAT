@@ -45,6 +45,19 @@ public class UserService {
     }
 
     public UserDtoResponse getUserByUsername(String username) {
-        return mapToDto(this.userRepository.getUserByUsername(username));
+        Optional<UserEntity> userEntity = Optional.ofNullable(this.userRepository.getUserByUsername(username));
+        if(userEntity.isEmpty()){
+            return null;
+        }
+        return mapToDto(userEntity.get());
+    }
+
+    public UserDtoResponse getUserByToken(String token){
+        token = token.substring(7);
+        Optional<UserEntity> userEntity = Optional.ofNullable(this.userRepository.getUserByToken(token));
+        if(userEntity.isEmpty()){
+            return null;
+        }
+        return mapToDto(userEntity.get());
     }
 }

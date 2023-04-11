@@ -4,7 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.catalina.User;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +14,7 @@ import umb.chatApp.authentication.UserRole;
 import umb.chatApp.authentication.service.AuthenticationService;
 
 import java.io.IOException;
+import java.lang.invoke.WrongMethodTypeException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +29,19 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
+        System.out.println(token.length());
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
         } else {
             filterChain.doFilter(request, response);
             return;
         }
+        //TokenDto tokenEntity =
 
-        //UserRole userRole = authenticationService.authenticate(token);
+        Boolean tokenExists = this.authenticationService.findToken(token);
+        if(!tokenExists){
+            throw new AuthenticationCredentialsNotFoundException("Incorrect token");
+        }
         UserRole userRole = new UserRole();
         userRole.setName("User");
         userRole.setId(1L);

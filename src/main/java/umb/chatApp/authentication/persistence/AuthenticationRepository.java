@@ -5,8 +5,6 @@ import org.springframework.data.neo4j.repository.query.Query;
 import umb.chatApp.authentication.UserRole;
 import umb.chatApp.authentication.persistence.entity.TokenEntity;
 
-import java.util.Optional;
-
 public interface AuthenticationRepository extends Neo4jRepository<TokenEntity, Long> {
 
     @Query("MATCH (u:User) WHERE id(u) = $id " +
@@ -20,6 +18,6 @@ public interface AuthenticationRepository extends Neo4jRepository<TokenEntity, L
     @Query("MATCH (u:User)-[:HAS]-(t:Token {token: $token}) MATCH (u)-[:HASROLE]-(r) return r as UserRole")
     UserRole getUserRoleByToken(String token);
 
-    @Query("MATCH(t:Token {token: $token}) return t")
+    @Query("MATCH(t:Token) WHERE t.token = $token return t as Token")
     TokenEntity getByToken(String token);
 }

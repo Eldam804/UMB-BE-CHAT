@@ -22,4 +22,9 @@ public class UserController {
     public List<UserDtoResponse> getAllUsers(){
         return this.userService.getAllUsers();
     }
+
+    @GetMapping("/api/user/details/{token}")
+    public UserDtoResponse getUserByToken(@PathVariable String token){
+        return this.userService.getUserByToken(token);
+    }
 }

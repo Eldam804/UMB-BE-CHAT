@@ -21,10 +21,10 @@ public class AuthenticationController {
         if(authentication.isEmpty()){
             response.setStatus(HttpStatus.FORBIDDEN.value());
         }
-
+        System.out.println();
         String[] credentials = decodeBasicAuthHeader(authentication.get());
         String token = authenticationService.authenticate(credentials[0], credentials[1]);
-
+        System.out.println(credentials[0] + credentials[1]);
         response.setStatus(HttpStatus.OK.value());
         response.addHeader("Authorization", "Bearer " + token);
     }

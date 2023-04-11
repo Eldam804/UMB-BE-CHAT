@@ -1,5 +1,6 @@
 package umb.chatApp.user.persistence;
 
+import org.apache.catalina.User;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
@@ -20,4 +21,7 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
 
     @Query("MATCH (u:User) WHERE u.username = $username RETURN u")
     UserEntity getUserByUsername(String username);
+
+    @Query("MATCH (u:User)-[:HAS]->(t:Token {token: $token}) return u")
+    UserEntity getUserByToken(String token);
 }
