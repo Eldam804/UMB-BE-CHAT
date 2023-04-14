@@ -12,8 +12,11 @@ public interface AuthenticationRepository extends Neo4jRepository<TokenEntity, L
             "CREATE (u)-[:HAS]->(t)")
     void createToken(Long id, String token);
 
-    @Query("MATCH (u:User)-[:HAS]-(t:Token {token: $token}) DELETE DETACH t")
+    @Query("MATCH (u:User)-[:HAS]-(t:Token {token: $token}) DETACH DELETE t")
     void destroyToken(String token);
+
+    @Query("MATCH (u:User) WHERE id(u) = $id MATCH (u)-[:HAS]->(t:Token) DETACH DELETE t")
+    void destroyTokenById(Long id);
 
     @Query("MATCH (u:User)-[:HAS]-(t:Token {token: $token}) MATCH (u)-[:HASROLE]-(r) return r as UserRole")
     UserRole getUserRoleByToken(String token);

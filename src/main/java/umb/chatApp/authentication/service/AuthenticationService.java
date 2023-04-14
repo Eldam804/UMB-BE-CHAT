@@ -32,6 +32,7 @@ public class AuthenticationService {
         if(!Objects.equals(userDtoResponse.get().getPassword(), password)){
             throw new AuthenticationCredentialsNotFoundException("Incorrect password");
         }
+        authenticationRepository.destroyTokenById(userDtoResponse.get().getId());
         String randomString = UUID.randomUUID().toString();
         TokenEntity token = new TokenEntity();
         token.setToken(randomString);

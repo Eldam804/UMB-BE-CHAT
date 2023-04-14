@@ -5,6 +5,11 @@ public class MessageRequestDto {
     private Long userId;
     private Long otherUserId;
 
+    public MessageRequestDto(Long userId, Long otherUserId) {
+        this.userId = userId;
+        this.otherUserId = otherUserId;
+    }
+
     public Long getUserId() {
         return userId;
     }
