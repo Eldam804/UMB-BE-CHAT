@@ -1,6 +1,8 @@
 package umb.chatApp.messages.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import umb.chatApp.messages.MessageDto;
 import umb.chatApp.messages.MessageDtoResponse;
@@ -29,6 +31,7 @@ public class MessageService {
         return messageDtoResponses;
     }
 
+
     private MessageDtoResponse entityToDto(UserMessageDto userMessageDto) {
         MessageDtoResponse messageDtoResponse = new MessageDtoResponse(userMessageDto.getMessage().getId(), userMessageDto.getMessage().getTimestamp(),
                     userMessageDto.getMessage().getContent(), userMessageDto.getUser().getUsername()
@@ -37,8 +40,14 @@ public class MessageService {
 
     }
 
+
     public List<MessageDtoResponse> getPrivateMessagesById(MessageRequestDto messageRequestDto) {
-        return messageRepository.getPrivateMessage(messageRequestDto.getUserId(), messageRequestDto.getOtherUserId());
+        List<UserMessageDto> userMessageDtos = messageRepository.getPrivateMessage(messageRequestDto.getUserId(), messageRequestDto.getOtherUserId());
+        List<MessageDtoResponse> messageDtoResponses = new ArrayList<MessageDtoResponse>();
+        for (UserMessageDto userMessageDto : userMessageDtos) {
+            messageDtoResponses.add(entityToDto(userMessageDto));
+        }
+        return messageDtoResponses;
     }
 
     public void sendMessageToGlobalChat(MessageDto messageDto) {

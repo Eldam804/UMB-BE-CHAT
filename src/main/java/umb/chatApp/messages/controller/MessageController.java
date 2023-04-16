@@ -18,8 +18,9 @@ public class MessageController {
     public List<MessageDtoResponse> getAllGlobalMessages(){
         return messageService.getAllGlobalMessages();
     }
-    @GetMapping("/api/private-messages")
-    public List<MessageDtoResponse> getPrivateMessagesById(@RequestBody MessageRequestDto messageRequestDto){
+    @GetMapping("/api/private-messages/{userId}/{foreignId}")
+    public List<MessageDtoResponse> getPrivateMessagesById(@PathVariable Long userId, @PathVariable Long foreignId){
+        MessageRequestDto messageRequestDto = new MessageRequestDto(userId, foreignId);
         return messageService.getPrivateMessagesById(messageRequestDto);
     }
     @PostMapping("/api/global-messages")

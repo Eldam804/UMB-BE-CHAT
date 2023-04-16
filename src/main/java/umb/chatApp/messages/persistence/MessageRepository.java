@@ -16,18 +16,20 @@ public interface MessageRepository extends Neo4jRepository<MessageEntity, Long> 
             " MATCH (u)-[:SENT]->(g)" +
             " RETURN u as user, g as message")
     */
-    @Query("MATCH (u:User)-[:SENT]->(g:GlobalMessage) return {id: id(u), username: u.username, password: u.password, joinDate: toString(u.joinDate), description: u.description} as user, {id: id(g), timestamp: toString(datetime({epochMillis: g.timestamp})), content: g.content} as message")
+    @Query("MATCH (u:User)-[:SENT]->(g:GlobalMessage) return {id: id(u), username: u.username, password: u.password, joinDate: toString(u.joinDate), description: u.description} as user, {id: id(g), timestamp: toString(datetime({epochMillis: g.timestamp})), content: g.content} as message ORDER BY g.timestamp")
     List<UserMessageDto> getAllMessages();
 
     @Query("MATCH (u1:User)-[:SENT]->(m:PrivateMessage)-[:TO]->(u2:User)" +
             " WHERE id(u1) = $userId AND id(u2) = $otherUserId"+
-            " RETURN m"+
+            " RETURN {id: id(u1), username: u1.username, password: u1.password, joinDate: toString(u1.joinDate), description: u1.description} as user,"+
+            " {id: id(m), timestamp: toString(datetime({epochMillis: m.timestamp})), content: m.content} as message ORDER BY m.timestamp"+
             " UNION"+
-            " MATCH (u1:User)-[:SENT]->(m:PrivateMessage)-[:TO]->(u2:User)"+
+            " MATCH (u2:User)-[:SENT]->(m:PrivateMessage)-[:TO]->(u1:User)"+
             " WHERE id(u1) = $userId AND id(u2) = $otherUserId"+
-            " RETURN m;"
+            " RETURN {id: id(u2), username: u2.username, password: u2.password, joinDate: toString(u2.joinDate), description: u2.description} as user,"+
+            " {id: id(m), timestamp: toString(datetime({epochMillis: m.timestamp})), content: m.content} as message ORDER BY m.timestamp"
     )
-    List<MessageDtoResponse> getPrivateMessage(Long userId, Long otherUserId);
+    List<UserMessageDto> getPrivateMessage(Long userId, Long otherUserId);
 
     @Query("MATCH (u:User) WHERE id(u) = $sentBy " +
             " CREATE (g:GlobalMessage {content: $messageContent, timestamp: timestamp()})" +
