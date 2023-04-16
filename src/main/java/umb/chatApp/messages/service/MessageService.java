@@ -42,7 +42,12 @@ public class MessageService {
 
 
     public List<MessageDtoResponse> getPrivateMessagesById(MessageRequestDto messageRequestDto) {
-        return messageRepository.getPrivateMessage(messageRequestDto.getUserId(), messageRequestDto.getOtherUserId());
+        List<UserMessageDto> userMessageDtos = messageRepository.getPrivateMessage(messageRequestDto.getUserId(), messageRequestDto.getOtherUserId());
+        List<MessageDtoResponse> messageDtoResponses = new ArrayList<MessageDtoResponse>();
+        for (UserMessageDto userMessageDto : userMessageDtos) {
+            messageDtoResponses.add(entityToDto(userMessageDto));
+        }
+        return messageDtoResponses;
     }
 
     public void sendMessageToGlobalChat(MessageDto messageDto) {

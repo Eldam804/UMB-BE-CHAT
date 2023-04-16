@@ -8,24 +8,24 @@ import java.util.Date;
 public class MessageDtoResponse {
     @Id
     @GeneratedValue
-    private Long messageId;
+    private Long id;
     private String timestamp;
     private String content;
     private String sentBy;
 
-    public MessageDtoResponse(Long messageId, String timestamp, String content, String sentBy) {
-        this.messageId = messageId;
+    public MessageDtoResponse(Long id, String timestamp, String content, String sentBy) {
+        this.id = id;
         this.timestamp = timestamp;
         this.content = content;
         this.sentBy = sentBy;
     }
 
-    public Long getMessageId() {
-        return messageId;
+    public Long getId() {
+        return id;
     }
 
-    public void setMessageId(Long messageId) {
-        this.messageId = messageId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTimestamp() {
