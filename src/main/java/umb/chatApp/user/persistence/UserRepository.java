@@ -24,4 +24,7 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
 
     @Query("MATCH (u:User)-[:HAS]->(t:Token {token: $token}) return u")
     UserEntity getUserByToken(String token);
+
+    @Query("CREATE(u:User {username: $username, password: $password, email: $email, description: $description, joinDate: $joinDate})")
+    void createUser(String username, String password, String email, String description, String joinDate);
 }
