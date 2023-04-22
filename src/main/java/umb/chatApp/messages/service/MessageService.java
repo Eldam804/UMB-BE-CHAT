@@ -14,12 +14,14 @@ import umb.chatApp.user.UserDtoResponse;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
 public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
+
     public List<MessageDtoResponse> getAllGlobalMessages() {
         List<UserMessageDto> userMessageDtos = messageRepository.getAllMessages();
         System.out.println(userMessageDtos.get(0).getMessage().getContent());
@@ -47,6 +49,7 @@ public class MessageService {
         for (UserMessageDto userMessageDto : userMessageDtos) {
             messageDtoResponses.add(entityToDto(userMessageDto));
         }
+        messageDtoResponses.sort(Comparator.comparing(MessageDtoResponse::getTimestamp));
         return messageDtoResponses;
     }
 

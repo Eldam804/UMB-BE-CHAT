@@ -22,12 +22,13 @@ public interface MessageRepository extends Neo4jRepository<MessageEntity, Long> 
     @Query("MATCH (u1:User)-[:SENT]->(m:PrivateMessage)-[:TO]->(u2:User)" +
             " WHERE id(u1) = $userId AND id(u2) = $otherUserId"+
             " RETURN {id: id(u1), username: u1.username, password: u1.password, joinDate: toString(u1.joinDate), description: u1.description} as user,"+
-            " {id: id(m), timestamp: toString(datetime({epochMillis: m.timestamp})), content: m.content} as message ORDER BY m.timestamp"+
+            " {id: id(m), timestamp: toString(datetime({epochMillis: m.timestamp})), content: m.content} as message"+
             " UNION"+
             " MATCH (u2:User)-[:SENT]->(m:PrivateMessage)-[:TO]->(u1:User)"+
             " WHERE id(u1) = $userId AND id(u2) = $otherUserId"+
             " RETURN {id: id(u2), username: u2.username, password: u2.password, joinDate: toString(u2.joinDate), description: u2.description} as user,"+
-            " {id: id(m), timestamp: toString(datetime({epochMillis: m.timestamp})), content: m.content} as message ORDER BY m.timestamp"
+            " {id: id(m), timestamp: toString(datetime({epochMillis: m.timestamp})), content: m.content} as message" +
+            " ORDER BY m.timestamp"
     )
     List<UserMessageDto> getPrivateMessage(Long userId, Long otherUserId);
 
