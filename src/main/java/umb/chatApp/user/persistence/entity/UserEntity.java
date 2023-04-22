@@ -15,6 +15,7 @@ public class UserEntity {
     private String joinDate;
     private String description;
 
+    private String email;
     public Long getId() {
         return id;
     }

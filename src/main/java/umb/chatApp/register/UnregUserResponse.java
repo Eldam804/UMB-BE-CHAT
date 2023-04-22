@@ -1,20 +1,17 @@
-package umb.chatApp.user;
+package umb.chatApp.register;
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
 
-import java.time.LocalDateTime;
-
-
-public class UserDtoResponse {
+public class UnregUserResponse {
+    @Id
+    @GeneratedValue
     private Long id;
     private String username;
-    private String password;
+    private String email;
     private String joinDate;
     private String description;
 
-    private String email;
     public Long getId() {
         return id;
     }
@@ -31,12 +28,12 @@ public class UserDtoResponse {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getJoinDate() {

@@ -3,6 +3,7 @@ package umb.chatApp.user.service;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import umb.chatApp.user.UserDtoRequest;
 import umb.chatApp.user.UserDtoResponse;
 import umb.chatApp.user.persistence.UserRepository;
 import umb.chatApp.user.persistence.entity.UserEntity;
@@ -59,5 +60,9 @@ public class UserService {
             return null;
         }
         return mapToDto(userEntity.get());
+    }
+
+    public void createUser(UserDtoRequest userDtoRequest) {
+        this.userRepository.createUser(userDtoRequest.getUsername(), userDtoRequest.getPassword(), userDtoRequest.getEmail(), userDtoRequest.getDescription(), userDtoRequest.getJoinDate());
     }
 }
