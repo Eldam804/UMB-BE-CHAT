@@ -29,7 +29,7 @@ public class AuthenticationController {
         response.addHeader("Authorization", "Bearer " + token);
     }
 
-    @DeleteMapping("/api/login")
+    @DeleteMapping("/api/logout")
     public void logoutUser(@RequestHeader(value = "Authorization", required = true) Optional<String> authentication){
         String token = authentication.get().substring("Bearer".length()).trim();
         authenticationService.logout(token);
