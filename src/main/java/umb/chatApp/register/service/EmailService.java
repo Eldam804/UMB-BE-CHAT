@@ -15,9 +15,12 @@ public class EmailService {
     //EMAIL je potrebne na free uctoch pridat cez app.mailgun
     @Value("${mailgun.api-key}")
     private String MAILGUN_API_KEY;
-    private static final String MAILGUN_DOMAIN = "postmaster@sandboxf9fc71cc544f42cf8ce4173b5bc1719d.mailgun.org";
+
+    @Value("${mailgun.api-domain}")
+    private String MAILGUN_DOMAIN;
     public void sendEmail(String to, String subject, String body){
         System.out.println("API KEY: " +MAILGUN_API_KEY);
+        System.out.println("DOMAIN :"  + MAILGUN_DOMAIN);
         Email email = EmailBuilder.startingBlank()
                 .from("ChatApp", "chatapplicationnoreply@gmail.com")
                 .to("you", to)
