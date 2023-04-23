@@ -1,18 +1,12 @@
 package umb.chatApp.register.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-import umb.chatApp.register.EmailDto;
-import umb.chatApp.register.UnregUser;
-import umb.chatApp.register.UnregUserDto;
-import umb.chatApp.register.UnregUserResponse;
+import umb.chatApp.register.*;
 import umb.chatApp.register.persistence.RegisterRepository;
 import umb.chatApp.user.UserDtoRequest;
-import umb.chatApp.user.persistence.entity.UserEntity;
+import umb.chatApp.user.UserDtoResponse;
 import umb.chatApp.user.service.UserService;
-
-import java.util.Random;
 
 @Service
 public class RegisterService {
@@ -24,6 +18,12 @@ public class RegisterService {
     private UserService userService;
 
     public UnregUserResponse createAccount(UnregUserDto unregUserDto){
+        UserDtoResponse user = this.userService.getUserByUsername(unregUserDto.getUsername());
+        System.out.println(unregUserDto.getUsername());
+        System.out.println(user);
+        if(user != null){
+            throw new UserAlreadyExistsException("Username already exists");
+        }
         int leftLimit = 1000;
         int rightLimit = 5000;
         int rand = (int) (Math.random() * (rightLimit - leftLimit) + leftLimit);

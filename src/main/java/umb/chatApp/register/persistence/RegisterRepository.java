@@ -13,6 +13,6 @@ public interface RegisterRepository extends Neo4jRepository<UnregUser, Long> {
     @Query("MATCH (u:UnregUser), (c:Code) WHERE id(u) = $userId AND c.code = $code MATCH (u)-[:HAS]->(c) RETURN u")
     UnregUser confirmAccount(Long userId, Long code);
 
-    @Query("MATCH (u:UnregUser), (c:Code) WHERE id(u) = $userId AND c.code = $code MATCH (u)-[:HAS]->(c) DELETE DETACH u, c")
+    @Query("MATCH (u:UnregUser), (c:Code) WHERE id(u) = $userId AND c.code = $code MATCH (u)-[:HAS]->(c) DETACH DELETE u, c")
     void deleteTemporaryAcc(Long userId, Long code);
 }
