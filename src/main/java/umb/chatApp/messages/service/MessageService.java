@@ -12,13 +12,13 @@ import umb.chatApp.messages.persistence.MessageRepository;
 import umb.chatApp.messages.persistence.entity.MessageEntity;
 import umb.chatApp.user.UserDtoResponse;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Service
 public class MessageService {
+
+    private final List<String> BAD_WORDS = Arrays.asList("fuck", "shit", "ffs");
     @Autowired
     private MessageRepository messageRepository;
 
@@ -54,10 +54,22 @@ public class MessageService {
     }
 
     public void sendMessageToGlobalChat(MessageDto messageDto) {
-        messageRepository.sentGlobalMessage(messageDto.getMessageContent(), messageDto.getSentById());
+        messageRepository.sentGlobalMessage(filter(messageDto.getMessageContent()), messageDto.getSentById());
     }
 
     public void sendMessageToPrivateChat(Long sentTo, MessageDto messageDto) {
         messageRepository.sentPrivateMessage(sentTo, messageDto.getMessageContent(), messageDto.getSentById());
     }
+
+    private String filter(String message){
+        String Replacement = "*";
+        String[] words = message.split(" ");
+        for(int i = 0; i < words.length; i++){
+            if(BAD_WORDS.contains(words[i])){
+                words[i] = Replacement.repeat(words[i].length());
+            }
+        }
+        return String.join(" ",words);
+    }
+
 }
