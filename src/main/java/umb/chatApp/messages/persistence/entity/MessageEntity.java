@@ -10,13 +10,13 @@ import java.util.Date;
 
 @Node("Message")
 public class MessageEntity {
-    @GeneratedValue
+
     @Id
-    private long id;
+    private Long id;
     private String timestamp;
     private String content;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

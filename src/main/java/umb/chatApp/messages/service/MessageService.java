@@ -25,6 +25,7 @@ public class MessageService {
     public List<MessageDtoResponse> getAllGlobalMessages() {
         List<UserMessageDto> userMessageDtos = messageRepository.getAllMessages();
         System.out.println(userMessageDtos.get(0).getMessage().getContent());
+        System.out.println(userMessageDtos.get(0).getMessage().getId());
         List<MessageDtoResponse> messageDtoResponses = new ArrayList<MessageDtoResponse>();
 
         for (UserMessageDto userMessageDto : userMessageDtos) {
