@@ -4,6 +4,7 @@ import org.apache.catalina.User;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
+import umb.chatApp.messages.GroupChatResponse;
 import umb.chatApp.user.UserDtoResponse;
 import umb.chatApp.user.persistence.entity.UserEntity;
 

@@ -2,9 +2,7 @@ package umb.chatApp.messages.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import umb.chatApp.messages.MessageDto;
-import umb.chatApp.messages.MessageDtoResponse;
-import umb.chatApp.messages.MessageRequestDto;
+import umb.chatApp.messages.*;
 import umb.chatApp.messages.service.MessageService;
 
 import java.util.List;
@@ -33,4 +31,36 @@ public class MessageController {
         messageService.sendMessageToPrivateChat(sentTo, messageDto);
     }
 
+    @PostMapping("/api/group-message/")
+    public void createGroupChat(@RequestBody GroupChatDto groupChatDto){
+        messageService.createGroupChat(groupChatDto);
+    }
+
+    @GetMapping("/api/group-message/{groupId}")
+    public List<MessageDtoResponse> getGroupChatMessages(@PathVariable Long groupId){
+        return messageService.getGroupChatMessages(groupId);
+    }
+    @PostMapping("/api/group-message/{groupId}")
+    public void postGroupChatMessage(@PathVariable Long groupId, @RequestBody MessageDto messageDto){
+        messageService.sendMessageToGroupChat(messageDto, groupId);
+    }
+
+
+
+
+
+    @GetMapping("/api/user/invites/{userId}")
+    public List<GroupChatResponse> getUsersInvites(@PathVariable Long userId){
+        return this.messageService.getUsersByInvites(userId);
+    }
+
+    @GetMapping("/api/user/groups/{userId}")
+    public List<GroupChatResponse> getGroupsOfUser(@PathVariable Long userId){
+        return this.messageService.getGroupsOfUser(userId);
+    }
+
+    @PostMapping("/api/user/invites/{groupId}/{userId}")
+    public void acceptUserInvite(@PathVariable Long userId, @PathVariable Long groupId){
+        this.messageService.acceptUserInvite(userId, groupId);
+    }
 }

@@ -3,7 +3,9 @@ package umb.chatApp.user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import umb.chatApp.messages.GroupChatResponse;
 import umb.chatApp.user.UserDtoResponse;
 import umb.chatApp.user.service.UserService;
 
@@ -27,4 +29,6 @@ public class UserController {
     public UserDtoResponse getUserByToken(@PathVariable String token){
         return this.userService.getUserByToken(token);
     }
+
+
 }

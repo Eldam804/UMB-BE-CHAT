@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import umb.chatApp.messages.MessageDto;
-import umb.chatApp.messages.MessageDtoResponse;
-import umb.chatApp.messages.MessageRequestDto;
-import umb.chatApp.messages.UserMessageDto;
+import umb.chatApp.messages.*;
 import umb.chatApp.messages.persistence.MessageRepository;
 import umb.chatApp.messages.persistence.entity.MessageEntity;
 import umb.chatApp.user.UserDtoResponse;
@@ -73,4 +70,43 @@ public class MessageService {
         return String.join(" ",words);
     }
 
+    public void createGroupChat(GroupChatDto groupChatDto) {
+        GroupChatResponse groupChatResponse = messageRepository.createGroupChat(groupChatDto.getGroupName());
+        System.out.println("GROUP CHAT:" + groupChatResponse.getGroupName() +" ID:"+ groupChatResponse.getId());
+        for (int i = 0; i < groupChatDto.getUsersInvited().size(); i++) {
+            System.out.println("USER ID: "+groupChatDto.getUsersInvited().get(i));
+            messageRepository.inviteUserById(groupChatDto.getUsersInvited().get(i), groupChatResponse.getId());
+        }
+    }
+
+    public void sendMessageToGroupChat(MessageDto messageDto, Long groupId) {
+        messageRepository.sentGroupChat(groupId, messageDto.getMessageContent(), messageDto.getSentById());
+    }
+
+    public List<MessageDtoResponse> getGroupChatMessages(Long groupId) {
+        //return messageRepository.getGroupChatMessages(groupId);
+        List<UserMessageDto> userMessageDtos = messageRepository.getGroupChatMessages(groupId);
+        List<MessageDtoResponse> messageDtoResponses = new ArrayList<MessageDtoResponse>();
+
+        for (UserMessageDto userMessageDto : userMessageDtos) {
+            messageDtoResponses.add(entityToDto(userMessageDto));
+        }
+        return messageDtoResponses;
+
+    }
+
+
+
+
+    public List<GroupChatResponse> getUsersByInvites(Long id) {
+        return messageRepository.getInvitesById(id);
+    }
+
+    public void acceptUserInvite(Long userId, Long groupId) {
+        messageRepository.acceptInvite(userId, groupId);
+    }
+
+    public List<GroupChatResponse> getGroupsOfUser(Long userId) {
+        return messageRepository.getAllGroupsOfUser(userId);
+    }
 }
