@@ -31,7 +31,7 @@ public class MessageController {
         messageService.sendMessageToPrivateChat(sentTo, messageDto);
     }
 
-    @PostMapping("/api/group-message/")
+    @PostMapping("/api/group-message")
     public void createGroupChat(@RequestBody GroupChatDto groupChatDto){
         messageService.createGroupChat(groupChatDto);
     }
