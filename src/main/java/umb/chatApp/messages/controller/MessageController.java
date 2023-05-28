@@ -63,4 +63,8 @@ public class MessageController {
     public void acceptUserInvite(@PathVariable Long userId, @PathVariable Long groupId){
         this.messageService.acceptUserInvite(userId, groupId);
     }
+    @DeleteMapping("/api/user/invites/{groupId}/{userId}")
+    public void declineUserInvite(@PathVariable Long userId, @PathVariable Long groupId){
+        this.messageService.declinetUserInvite(userId, groupId);
+    }
 }

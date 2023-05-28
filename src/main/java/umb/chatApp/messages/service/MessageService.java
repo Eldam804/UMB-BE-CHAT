@@ -109,4 +109,8 @@ public class MessageService {
     public List<GroupChatResponse> getGroupsOfUser(Long userId) {
         return messageRepository.getAllGroupsOfUser(userId);
     }
+
+    public void declinetUserInvite(Long userId, Long groupId) {
+        messageRepository.declineInvite(userId, groupId);
+    }
 }

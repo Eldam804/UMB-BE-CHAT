@@ -80,4 +80,8 @@ public interface MessageRepository extends Neo4jRepository<MessageEntity, Long> 
 
     @Query("MATCH(g:GroupChat)-[:ACCEPTED]->(u:User) WHERE id(u) = $userId RETURN id(g) AS id, g.groupName as groupName")
     List<GroupChatResponse> getAllGroupsOfUser(Long userId);
+
+    @Query("MATCH(u:User), (g:GroupChat) WHERE id(u) = $userId AND id(g) = $groupId" +
+            " MATCH(g)-[i:INVITED]->(u) DELETE i")
+    void declineInvite(Long userId, Long groupId);
 }
