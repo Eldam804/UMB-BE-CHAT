@@ -59,6 +59,11 @@ public class MessageController {
         return this.messageService.getGroupsOfUser(userId);
     }
 
+    @PostMapping("/api/user/invite")
+    public void inviteUser(@RequestBody GroupAcceptDto groupAcceptDto){
+        this.messageService.inviteUser(groupAcceptDto.getUserId(), groupAcceptDto.getGroupId());
+    }
+
     @PostMapping("/api/user/invites")
     public void acceptUserInvite(@RequestBody GroupAcceptDto groupAcceptDto){
         this.messageService.acceptUserInvite(groupAcceptDto.getUserId(), groupAcceptDto.getGroupId());

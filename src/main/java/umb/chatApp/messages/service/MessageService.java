@@ -113,4 +113,8 @@ public class MessageService {
     public void declinetUserInvite(Long userId, Long groupId) {
         messageRepository.declineInvite(userId, groupId);
     }
+
+    public void inviteUser(Long userId, Long groupId) {
+        messageRepository.inviteNewUser(userId, groupId);
+    }
 }
