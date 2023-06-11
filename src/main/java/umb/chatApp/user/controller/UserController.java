@@ -1,12 +1,10 @@
 package umb.chatApp.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umb.chatApp.messages.GroupChatResponse;
 import umb.chatApp.user.UserDtoResponse;
+import umb.chatApp.user.UserEditDto;
 import umb.chatApp.user.service.UserService;
 
 import java.util.List;
@@ -30,5 +28,8 @@ public class UserController {
         return this.userService.getUserByToken(token);
     }
 
-
+    @PutMapping("/api/user/{id}")
+    public void editUserById(@PathVariable Long id, @RequestBody UserEditDto user){
+        this.userService.editUserById(id, user);
+    }
 }

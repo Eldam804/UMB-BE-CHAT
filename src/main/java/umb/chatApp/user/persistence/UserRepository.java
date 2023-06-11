@@ -28,4 +28,7 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
 
     @Query("CREATE(u:User {username: $username, password: $password, email: $email, description: $description, joinDate: $joinDate})")
     void createUser(String username, String password, String email, String description, String joinDate);
+
+    @Query("MATCH(u:User) where id(u)=$id set u.username=$username, u.description=$description")
+    void editUser(Long id, String username, String description);
 }

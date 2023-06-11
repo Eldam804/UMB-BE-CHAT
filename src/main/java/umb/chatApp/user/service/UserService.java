@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import umb.chatApp.messages.GroupChatResponse;
 import umb.chatApp.user.UserDtoRequest;
 import umb.chatApp.user.UserDtoResponse;
+import umb.chatApp.user.UserEditDto;
 import umb.chatApp.user.persistence.UserRepository;
 import umb.chatApp.user.persistence.entity.UserEntity;
 
@@ -65,5 +66,9 @@ public class UserService {
 
     public void createUser(UserDtoRequest userDtoRequest) {
         this.userRepository.createUser(userDtoRequest.getUsername(), userDtoRequest.getPassword(), userDtoRequest.getEmail(), userDtoRequest.getDescription(), userDtoRequest.getJoinDate());
+    }
+
+    public void editUserById(Long id, UserEditDto user) {
+        this.userRepository.editUser(id, user.getUsername(), user.getDescription());
     }
 }

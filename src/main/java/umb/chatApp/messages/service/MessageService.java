@@ -117,4 +117,7 @@ public class MessageService {
     public void inviteUser(Long userId, Long groupId) {
         messageRepository.inviteNewUser(userId, groupId);
     }
+
+    public void deleteMessage(Long messageId) { messageRepository.deleteMessage(messageId);
+    }
 }

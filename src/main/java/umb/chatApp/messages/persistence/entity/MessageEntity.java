@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Node("Message")
 public class MessageEntity {
-
     @Id
     private Long id;
     private String timestamp;

@@ -44,8 +44,10 @@ public class MessageController {
     public void postGroupChatMessage(@PathVariable Long groupId, @RequestBody MessageDto messageDto){
         messageService.sendMessageToGroupChat(messageDto, groupId);
     }
-
-
+    @DeleteMapping("/api/global-messages/{messageId}")
+    public void deleteMessage(@PathVariable Long messageId){
+        messageService.deleteMessage(messageId);
+    }
 
 
 
